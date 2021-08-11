@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Labirinto.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=5]
+[ext_resource path="res://Material da Aula/sons/tema.wav" type="AudioStream" id=6]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 45, 45 )
+
+[node name="Main" type="Spatial"]
+script = ExtResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.617887, 1.44644, 7.77104 )
+
+[node name="Labirinto" parent="." instance=ExtResource( 2 )]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.98009, 25.7146 )
+light_energy = 2.0
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="geracaixa" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="tema" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 6 )
+
+[connection signal="fimdejogo" from="HUD" to="." method="_on_HUD_fimdejogo"]
+[connection signal="perdeu" from="HUD" to="." method="_on_HUD_perdeu"]
+[connection signal="reinicia" from="HUD" to="." method="_on_HUD_reinicia"]
+[connection signal="timeout" from="geracaixa" to="." method="_on_geracaixa_timeout"]
